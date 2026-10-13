@@ -14,24 +14,22 @@ int main() {
     int control = 0;
     char input_string[50], temp_str[10];
 
-    printf("Qual sera o tamanho do seu terreno? (ex: <5x10> ou <2 2>): ");
+    printf("Qual sera o tamanho do seu terreno? (ex: <5x10> de 1 a 20 para linhas e 1 a 40 para colunas): ");
     fgets(input_string, sizeof(input_string), stdin);
 
     size_x = parsing(&control, input_string, temp_str);
 
-    if (size_x == 0) {
+    if (size_x <= 0 || size_x > 20) {
         printf("ERRO: Valor invalido ou nao inserido\n");
         return 1;
     }
 
     size_y = parsing(&control, input_string, temp_str);
 
-    if (size_y == 0) {
+    if (size_y <= 0 || size_y > 40) {
         printf("ERRO: Valor invalido ou nao inserido\n");
         return 1;
     }
-    
-    printf("SIZE: %dx%d\n", size_x, size_y);
 
     grid = calloc(size_x, sizeof(int *));
 
