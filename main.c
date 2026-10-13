@@ -76,8 +76,8 @@ void run(int **grid, int size_x, int size_y){
         system("cls");
 
         printf("=== O FAZENDEIRO INTERATIVO ===\n");
-        printf("Setas: Mover | 't': trigo(M) | 'f': feijao(.)| 'a': alface(@) |\n"
-               " 'm': melancia(O) | 'c': cenoura(*) | '1': colher(#) | 'q': Sair\n\n");
+        printf("Setas: Mover | 't': trigo(M) | 'a': alface(@) |\n"
+               " 'm': melancia(O) | 'c': cenoura(*) | '1': colher(.) | 'q': Sair\n\n");
 
         for (int i = 0; i < size_x; i++) {
             for (int j = 0; j < size_y; j++) {
@@ -87,16 +87,14 @@ void run(int **grid, int size_x, int size_y){
                 if (i == player_x && j == player_y) {
                     printf("[P] "); 
                 } else if (type == 0){
-                    printf(" #  ");
+                    printf(" .  ");
                 } else if (type == 1) {
                     printf(" M  "); 
                 } else if (type == 2) {
-                    printf(" .  "); 
-                } else if (type == 3) {
                     printf(" @  "); 
-                } else if (type == 4) {
+                } else if (type == 3) {
                     printf(" O  "); 
-                } else if (type == 5) {
+                } else if (type == 4) {
                     printf(" *  ");
                 }
             }
@@ -130,9 +128,6 @@ void run(int **grid, int size_x, int size_y){
                     break;
                 case 't':
                     grid[player_x][player_y] = 1;
-                    break;
-                case 'f':
-                    grid[player_x][player_y] = 2;
                     break;
                 case 'a':
                     grid[player_x][player_y] = 3;
