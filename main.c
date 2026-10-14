@@ -78,7 +78,7 @@ void run(int *grid, int size_x, int size_y){
         for (int i = 0; i < size_x; i++) {
             for (int j = 0; j < size_y; j++) {
 
-                int type = *(grid + (i * size_x) + j); 
+                int type = *(grid + (i * size_y) + j); 
 
                 if (i == player_x && j == player_y) {
                     printf("[P] "); 
@@ -120,19 +120,19 @@ void run(int *grid, int size_x, int size_y){
 
             switch(key) {
                 case '1':
-                    *(grid + (player_x * size_x ) + player_y) = 0; // Colher
+                    *(grid + (player_x * size_y ) + player_y) = 0; // Colher
                     break;
                 case 't':
-                    *(grid + (player_x * size_x ) + player_y) = 1; // Trigo
+                    *(grid + (player_x * size_y ) + player_y) = 1; // Trigo
                     break;
                 case 'a':
-                    *(grid + (player_x * size_x ) + player_y) = 3; // Alface
+                    *(grid + (player_x * size_y ) + player_y) = 3; // Alface
                     break;
                 case 'm':
-                    *(grid + (player_x * size_x ) + player_y) = 4; // Melancia
+                    *(grid + (player_x * size_y ) + player_y) = 4; // Melancia
                     break;
                 case 'c':
-                    *(grid + (player_x * size_x ) + player_y) = 5; // Cenoura
+                    *(grid + (player_x * size_y ) + player_y) = 5; // Cenoura
                     break;
                 case 'q':
                 case 'Q':
