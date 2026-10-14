@@ -66,36 +66,50 @@ void run(int *grid, int size_x, int size_y){
 
     int player_x = 0, player_y = 0;
     int running = 1;
-    
+
+    char buffer[4000];
+
     while(running){
 
-        system("cls");
+        system("cls");   
 
         printf("=== O FAZENDEIRO INTERATIVO ===\n");
         printf("Setas: Mover | 't': trigo(M) | 'a': alface(@) |\n"
                " 'm': melancia(O) | 'c': cenoura(*) | '1': colher(.) | 'q': Sair\n\n");
 
+        int buffer_pos = 0;
+
         for (int i = 0; i < size_x; i++) {
             for (int j = 0; j < size_y; j++) {
 
                 int type = *(grid + (i * size_y) + j); 
+                const char* temp_str = "    ";
 
                 if (i == player_x && j == player_y) {
-                    printf("[P] "); 
+                    temp_str = "[P] "; 
                 } else if (type == 0){
-                    printf(" .  ");
+                    temp_str = " .  ";
                 } else if (type == 1) {
-                    printf(" M  "); 
+                    temp_str = " M  "; 
                 } else if (type == 3) {
-                    printf(" @  "); 
+                    temp_str = " @  "; 
                 } else if (type == 4) {
-                    printf(" O  "); 
+                    temp_str = " O  "; 
                 } else if (type == 5) {
-                    printf(" *  ");
+                    temp_str = " *  ";
                 }
+
+                memcpy(&buffer[buffer_pos], temp_str, 4);
+                buffer_pos += 4;
             }
-            printf("\n\n"); 
+
+            memcpy(&buffer[buffer_pos], "\n\n", 2);
+            buffer_pos += 2;
         }
+
+        buffer[buffer_pos] = '\0';
+
+        fputs(buffer, stdout);
 
         int key = _getch();
 
