@@ -5,10 +5,10 @@
 #include <ctype.h>
 
 int parsing(int *control, char input_string[], char temp_str[]);
-void run(int **grid, int size_x, int size_y);
+void run(int *grid, int size_x, int size_y);
 
 int main() {
-    int **grid = NULL;
+    int *grid = NULL;
     int size_x = 0, size_y = 0;
 
     int control = 0;
@@ -31,11 +31,7 @@ int main() {
         return 1;
     }
 
-    grid = calloc(size_x, sizeof(int *));
-
-    for(int control = 0; control < size_x; control++){
-        grid[control] = calloc(size_y, sizeof(int));
-    }
+    grid = calloc(size_x * size_y, sizeof(int *));
 
     run(grid, size_x, size_y);
 
@@ -66,7 +62,7 @@ int parsing(int *control, char input_string[], char temp_str[]){
     return atoi(temp_str);
 }
 
-void run(int **grid, int size_x, int size_y){
+void run(int *grid, int size_x, int size_y){
 
     int player_x = 0, player_y = 0;
     int running = 1;
@@ -82,7 +78,7 @@ void run(int **grid, int size_x, int size_y){
         for (int i = 0; i < size_x; i++) {
             for (int j = 0; j < size_y; j++) {
 
-                int type = grid[i][j];
+                int type = *(grid + (i * size_x) + j); 
 
                 if (i == player_x && j == player_y) {
                     printf("[P] "); 
@@ -90,11 +86,11 @@ void run(int **grid, int size_x, int size_y){
                     printf(" .  ");
                 } else if (type == 1) {
                     printf(" M  "); 
-                } else if (type == 2) {
-                    printf(" @  "); 
                 } else if (type == 3) {
-                    printf(" O  "); 
+                    printf(" @  "); 
                 } else if (type == 4) {
+                    printf(" O  "); 
+                } else if (type == 5) {
                     printf(" *  ");
                 }
             }
@@ -107,16 +103,16 @@ void run(int **grid, int size_x, int size_y){
             key = _getch();
             
             switch(key) {
-                case 72: 
+                case 72: // Cima
                     if (player_x > 0) player_x--; 
                     break;
-                case 80: 
+                case 80: // Baixo
                     if (player_x < size_x - 1) player_x++; 
                     break;
-                case 75: 
+                case 75: // Esquerda
                     if (player_y > 0) player_y--; 
                     break;
-                case 77: 
+                case 77: // Direita
                     if (player_y < size_y - 1) player_y++; 
                     break;
             }   
@@ -124,19 +120,19 @@ void run(int **grid, int size_x, int size_y){
 
             switch(key) {
                 case '1':
-                    grid[player_x][player_y] = 0;
+                    *(grid + (player_x * size_x ) + player_y) = 0; // Colher
                     break;
                 case 't':
-                    grid[player_x][player_y] = 1;
+                    *(grid + (player_x * size_x ) + player_y) = 1; // Trigo
                     break;
                 case 'a':
-                    grid[player_x][player_y] = 3;
+                    *(grid + (player_x * size_x ) + player_y) = 3; // Alface
                     break;
                 case 'm':
-                    grid[player_x][player_y] = 4;
+                    *(grid + (player_x * size_x ) + player_y) = 4; // Melancia
                     break;
                 case 'c':
-                    grid[player_x][player_y] = 5;
+                    *(grid + (player_x * size_x ) + player_y) = 5; // Cenoura
                     break;
                 case 'q':
                 case 'Q':
