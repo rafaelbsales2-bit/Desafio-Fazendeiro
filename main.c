@@ -142,20 +142,20 @@ void run(int *grid, int size_x, int size_y){
         } else {
 
             switch(key) {
-                case '1':
-                    *(grid + (player_x * size_y ) + player_y) = 0; // Colher
+                case '1': // Colher
+                    grid[(player_x * size_y ) + player_y] = 0; 
                     break;
-                case 't':
-                    *(grid + (player_x * size_y ) + player_y) = 1; // Trigo
+                case 't': // Trigo
+                    grid[(player_x * size_y ) + player_y] = 1;
                     break;
-                case 'a':
-                    *(grid + (player_x * size_y ) + player_y) = 3; // Alface
+                case 'a': // Alface
+                    grid[(player_x * size_y ) + player_y] = 3;
                     break;
-                case 'm':
-                    *(grid + (player_x * size_y ) + player_y) = 4; // Melancia
+                case 'm': // Melancia
+                    grid[(player_x * size_y ) + player_y] = 4; 
                     break;
-                case 'c':
-                    *(grid + (player_x * size_y ) + player_y) = 5; // Cenoura
+                case 'c': // Cenoura
+                    grid[(player_x * size_y ) + player_y] = 5; 
                     break;
                 case 'q':
                 case 'Q':
