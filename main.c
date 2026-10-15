@@ -3,9 +3,11 @@
 #include <conio.h> 
 #include <string.h>
 #include <ctype.h>
+#include <windows.h>
 
 int parsing(int *control, char input_string[], char temp_str[]);
 void run(int *grid, int size_x, int size_y);
+void moveCursorTopLeft();
 
 int main() {
     int *grid = NULL;
@@ -62,6 +64,11 @@ int parsing(int *control, char input_string[], char temp_str[]){
     return atoi(temp_str);
 }
 
+void moveCursorTopLeft() {
+    COORD coord = {0, 0};
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+}
+
 void run(int *grid, int size_x, int size_y){
 
     int player_x = 0, player_y = 0;
@@ -69,12 +76,14 @@ void run(int *grid, int size_x, int size_y){
 
     char buffer[4000];
 
+    system("cls");
+
     while(running){
 
-        system("cls");   
+        moveCursorTopLeft();
 
         printf("=== O FAZENDEIRO INTERATIVO ===\n");
-        printf("Setas: Mover | 't': trigo(M) | 'a': alface(@) |\n"
+        printf("Setas: Mover | 't': trigo(M) | 'a': alface(@) |"
                " 'm': melancia(O) | 'c': cenoura(*) | '1': colher(.) | 'q': Sair\n\n");
 
         int buffer_pos = 0;
