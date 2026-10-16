@@ -9,7 +9,6 @@ int parsing(int *control, char input_string[], char temp_str[]);
 void run(int *grid, int size_x, int size_y);
 void moveCursorTopLeft();
 void ocultarCursor();
-// Atualizado para receber o base_y
 void atualizar_celula(int linha, int coluna, int tipo, int is_player, int base_y);
 void bit_activator(int player_x, int player_y, int size_x, int size_y, unsigned long long bit_mask[], 
     unsigned long long *root_mask, int vertical_symetry, int horizontal_symetry);
@@ -74,7 +73,6 @@ void ocultarCursor() {
 void atualizar_celula(int linha, int coluna, int tipo, int is_player, int base_y) {
     COORD coord;
     coord.X = coluna * 4;
-    // Utiliza a posição exata de onde a grelha começou a ser impressa no ecrã
     coord.Y = base_y + (linha * 2); 
     
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
@@ -101,7 +99,7 @@ void run(int *grid, int size_x, int size_y){
     int first_time = 1;
     
     int current_plant_type = 0;
-    int base_y = 0; // Armazena a coordenada Y onde a grelha começa no terminal
+    int base_y = 0;
 
     int horizontal_symetry = 0;
     int vertical_symetry = 0;
@@ -124,7 +122,6 @@ void run(int *grid, int size_x, int size_y){
             printf("Setas: Mover | 't': trigo(M) | 'a': alface(@) | 'm': melancia(O) | 'c': cenoura(*)\n"
                    " '1': colher(.) | '2': simetria vertical | '3': simetria horizontal | 'q': Sair\n\n");
 
-            // CORREÇÃO 2: Grava a coordenada exata de Y após imprimir o menu
             CONSOLE_SCREEN_BUFFER_INFO csbi;
             GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
             base_y = csbi.dwCursorPosition.Y;
