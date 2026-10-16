@@ -7,7 +7,6 @@
 
 int parsing(int *control, char input_string[], char temp_str[]);
 void run(int *grid, int size_x, int size_y);
-void moveCursorTopLeft();
 void ocultarCursor();
 void configurar_terminal(int size_x, int size_y);
 void atualizar_celula(int linha, int coluna, int tipo, int is_player, int base_y);
