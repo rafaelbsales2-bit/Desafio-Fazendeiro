@@ -9,6 +9,7 @@ int parsing(int *control, char input_string[], char temp_str[]);
 void run(int *grid, int size_x, int size_y);
 void moveCursorTopLeft();
 void ocultarCursor();
+void configurar_terminal(int size_x, int size_y);
 void atualizar_celula(int linha, int coluna, int tipo, int is_player, int base_y);
 void bit_activator(int player_x, int player_y, int size_x, int size_y, unsigned long long bit_mask[], 
     unsigned long long *root_mask, int vertical_symetry, int horizontal_symetry);
@@ -20,19 +21,14 @@ int main() {
     int control = 0;
     char input_string[50], temp_str[10];
 
-    printf("Qual sera o tamanho do seu terreno? (ex: <5x10> de 1 a 20 para linhas e 1 a 40 para colunas): ");
+    printf("Qual sera o tamanho do seu terreno? (ex: <5x10> x e y multiplicados devem ser <= 4096): ");
     fgets(input_string, sizeof(input_string), stdin);
 
     size_x = parsing(&control, input_string, temp_str);
 
-    if (size_x <= 0 || size_x > 20) {
-        printf("ERRO: Valor invalido ou nao inserido\n");
-        return 1;
-    }
-
     size_y = parsing(&control, input_string, temp_str);
 
-    if (size_y <= 0 || size_y > 40) {
+    if (size_x * size_y > 4096) {
         printf("ERRO: Valor invalido ou nao inserido\n");
         return 1;
     }
@@ -68,6 +64,33 @@ void ocultarCursor() {
     info.dwSize = 100;
     info.bVisible = FALSE; 
     SetConsoleCursorInfo(consoleHandle, &info);
+}
+
+void configurar_terminal(int size_x, int size_y) {
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    
+    // 1. Desativa a quebra de linha automática (evita que o mapa deforme se tocar na borda)
+    DWORD mode;
+    GetConsoleMode(hConsole, &mode);
+    mode &= ~ENABLE_WRAP_AT_EOL_OUTPUT;
+    SetConsoleMode(hConsole, mode);
+
+    // 2. Aumenta o buffer do console para criar barra de rolagem se o mapa for maior que a janela
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+    GetConsoleScreenBufferInfo(hConsole, &csbi);
+    
+    // Calcula largura (4 caracteres por celula) e garante um mínimo para o menu não cortar
+    short largura_necessaria = (short)(size_y * 4);
+    if (largura_necessaria < 120) largura_necessaria = 120; 
+    
+    // Calcula altura necessária (2 linhas por celula + 10 do menu)
+    short altura_necessaria = (short)(size_x * 2 + 10);
+    
+    COORD novo_buffer = csbi.dwSize;
+    if (novo_buffer.X < largura_necessaria) novo_buffer.X = largura_necessaria;
+    if (novo_buffer.Y < altura_necessaria) novo_buffer.Y = altura_necessaria;
+
+    SetConsoleScreenBufferSize(hConsole, novo_buffer);
 }
 
 void atualizar_celula(int linha, int coluna, int tipo, int is_player, int base_y) {
@@ -108,8 +131,9 @@ void run(int *grid, int size_x, int size_y){
     memset(bit_mask, 0, sizeof(bit_mask));
 
     unsigned long long root_mask = 0;
-    char buffer[4000];
+    char buffer[4000 * 6];
 
+    configurar_terminal(size_x, size_y);
     ocultarCursor();
     system("cls");
 
