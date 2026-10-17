@@ -6,13 +6,13 @@ O sistema destaca-se pelo controle direto da renderização do buffer de tela (e
 
 ## Funcionalidades Principais
 
-* **Grade de Plantação Dinâmica:** O usuário define as proporções do terreno na inicialização (ex: `10x20`), com suporte a até 4096 células calculadas dinamicamente via alocação de memória.
+- **Grade de Plantação Dinâmica:** O usuário define as proporções do terreno na inicialização (ex: `10x20`), com a matriz calculada dinamicamente via alocação de memória.
 
-* **Ferramentas de Simetria (Novo):** O sistema agora oferece suporte a plantio com espelhamento. É possível ativar a simetria no eixo Vertical, Horizontal ou em ambos simultaneamente, permitindo o preenchimento rápido e padronizado da grade de plantação.
+- **Ferramentas de Simetria (Novo):** O sistema agora oferece suporte a plantio com espelhamento. É possível ativar a simetria no eixo Vertical, Horizontal ou em ambos simultaneamente, permitindo o preenchimento rápido e padronizado da grade de plantação.
 
-* **Renderização Otimizada:** Em vez de redesenhar a tela inteira a cada movimento, o motor gráfico atualiza estritamente os caracteres cujos estados foram alterados por meio do controle preciso das coordenadas do console.
+- **Renderização Otimizada:** Em vez de redesenhar a tela inteira a cada movimento, o motor gráfico atualiza estritamente os caracteres cujos estados foram alterados por meio do controle preciso das coordenadas do console.
 
-* **Múltiplos Estados de Célula:** Suporte para diferentes identificadores de plantio (Trigo, Alface, Melancia e Cenoura), além da função de limpeza de lote.
+- **Múltiplos Estados de Célula:** Suporte para diferentes identificadores de plantio (Trigo, Alface, Melancia e Cenoura), além da função de limpeza de lote.
 
 ## Tabela de Comandos
 
@@ -32,15 +32,15 @@ A navegação e interação ocorrem em tempo real, sem a necessidade de pression
 
 ## Arquitetura e Considerações Técnicas
 
-* **Adaptação Multiplataforma:** A arquitetura modular do motor de renderização visa facilitar a portabilidade. Versões em desenvolvimento focarão na adaptação de controle de terminal para abranger de forma nativa sistemas operacionais baseados em Unix (Linux e macOS).
+- **Adaptação Multiplataforma:** A arquitetura modular do motor de renderização visa facilitar a portabilidade. Versões em desenvolvimento focarão na adaptação de controle de terminal para abranger de forma nativa sistemas operacionais baseados em Unix (Linux e macOS).
 
-* **Ajuste de Buffer:** O sistema calibra automaticamente o buffer de tela (desativando a quebra de linha e expandindo limites de rolagem) para evitar a deformação do mapa nas extremidades. Recomenda-se executar o programa em tela maximizada para melhor visualização de grandes terrenos.
+- **Ajuste de Buffer e Limites de Tela:** O sistema calibra o buffer de tela para evitar deformações, porém, **se o tamanho da grade escolhido for maior do que o terminal consegue exibir, ocorrerão quebras de linha forçadas, resultando em erros visuais e de formatação no mapa**. É imprescindível adequar o tamanho do terreno (`x` e `y`) às proporções reais da sua janela de terminal, sendo recomendado executar o programa em tela maximizada.
 
 ## Instruções de Compilação e Execução
 
 ### Pré-requisitos
 
-* Compilador C padrão (como GCC).
+- Compilador C padrão (como GCC).
 
 ### Processo de Compilação
 
@@ -48,14 +48,3 @@ Navegue até o diretório do arquivo-fonte via terminal e execute o seguinte com
 
 ```bash
 gcc main.c -o fazendeiro -static -O3
-```
-
-### Inicialização
-
-Execute o binário compilado:
-
-```bash
-./fazendeiro
-```
-
-Durante a inicialização, o sistema solicitará o tamanho da matriz. A entrada deve conter os valores numéricos de linhas e colunas (o sistema de *parsing* inteligente ignora letras e caracteres especiais, portanto formatos como `10x15`, `<10 15>`, ou `10,15` são perfeitamente válidos, desde que a multiplicação final dos eixos não exceda 4096).
